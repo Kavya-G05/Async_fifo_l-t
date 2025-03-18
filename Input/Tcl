@@ -1,0 +1,29 @@
+set_db init_lib_search_path /home/install/FOUNDRY/digital/45nm/LIBS/lib/max/
+
+set_db lef_library /home/install/FOUNDRY/digital/45nm/LIBS/lef/gsclib045.fixed.lef
+
+set_db library slow.lib
+
+read_hdl {./code.v}
+
+elaborate
+
+read_sdc ./constraints.sdc
+
+#set_attribute syn_generic_effort medium
+#set_attribute syn_map_effort_medium
+#set_attribute syn_opt_effort_medium
+
+syn_generic
+syn_map
+syn_opt
+
+report timing > asyncfifo_timing.rpt
+report area > asyncfifo_cell.rpt
+report power > asyncfifo_power.rpt
+report gates > asyncfifo_gates.rpt
+
+write_hdl > asyncfifo_netlist.v
+write_sdc > asyncfifo_const.sdc
+
+gui_show
